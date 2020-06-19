@@ -1,7 +1,7 @@
 # Native
 import time
 import random
-from os import system, name 
+from os import system
 
 # Third party
 from colorama import Fore, Back, Style
@@ -60,7 +60,7 @@ def players_draw_cards(players, deck):
     return None
 
 
-def rate_players(players):
+def rate_player_hands(players):
     """
     """
     players = players.copy()
@@ -73,7 +73,7 @@ def rate_players(players):
         hand_ranking = Poker.evaluate_hand(player_hand, player_name) # Returns Tuple
         (handRating, description, highCard) = hand_ranking # Unpacks Tuple
         player.updateState(handRating, description, highCard)
-        return rate_players(players)
+        return rate_player_hands(players)
 
     return None
 
@@ -94,6 +94,7 @@ def determine_winner(players, winningPlayer="", winningHand=14, highCard=0, desc
     
     time.sleep(2)
     print(f"\nWinning Player is {Fore.GREEN}{winningPlayer}{Style.RESET_ALL} who won with a hand of {Fore.GREEN}{*winningPlayer.get_hand(),}{Style.RESET_ALL}, {winningPlayer} had {description}.\n")
+    return winningPlayer
 
 
 def play_game(keepPlaying=True):
@@ -102,8 +103,7 @@ def play_game(keepPlaying=True):
 
     # Base case
     if keepPlaying != True:
-        # Clears shell / console
-        system('cls')
+        system('cls') # Clears shell / console
         print("Game session ceased.")
         return None
 
@@ -111,7 +111,7 @@ def play_game(keepPlaying=True):
     deck = create_deck()
     players_draw_cards(players, deck)
     Poker.define_hands()
-    rate_players(players)
+    rate_player_hands(players)
     determine_winner(players)
 
     keepPlaying = input(f"{Style.BRIGHT}Do you want to play again (Y/N)? {Style.RESET_ALL}").lower().strip() in ["y", "ye", "yes", "yea", "yeah", "ys", "u", "t"]
