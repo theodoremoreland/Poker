@@ -1,5 +1,10 @@
+# Native
+import sys
+
 # Third party
 from colorama import Fore, Back, Style
+
+sys.path.append("..")
 
 class Poker():
     """
@@ -23,44 +28,52 @@ class Poker():
         threeOfAKind = lambda cardSuits, cardRanks : len(set(cardRanks)) == 3 and cardRanks.count(cardRanks[0]) == 3
         twoPairCheck = lambda cardSuits, cardRanks : len(set(cardRanks)) == 3 and cardRanks.count(cardRanks[0]) == 2
         pairCheck = lambda cardSuits, cardRanks : len(set(cardRanks)) == 3 and cardRanks.count(cardRanks[0]) == 2
-        highCard = lambda cardSuits, cardRanks : max(cardRanks)
 
         if len(cls.hands) == 0:
             cls.hands.append([
-                ("Straight Flush to the ", straightFlush)
+                ("Straight Flush", straightFlush)
                 ,("Four Of A Kind", fourOfAKind)
                 ,("Full House", fullHouse)
                 ,("Flush", flush)
                 ,("Straight", straight)
                 ,("Three Of A Kind", threeOfAKind)
-                ,("Two Pair Check", twoPairCheck)
-                ,("Pair Check", pairCheck)
-                ,("High Card ", highCard)
+                ,("Two Pair", twoPairCheck)
+                ,("One Pair", pairCheck)
             ])
 
+            # Flattens list from 2d to 1d (e.g. [[elements]] >> [elements])
             cls.hands = [hand for hand in cls.hands[0]]
+
 
     @classmethod
     def five_card_draw(cls, cards, player_name="Player"):
-        """
+        """Returns Tuple (rank of hand [0-7], "Name of Poker hand", High card value [1-13])
         """
         cardRanks = []
         cardSuits = []
-        highCard = cls.hands[-1]
 
         for card in cards:
             cardRanks.append(card.get_rank())
             cardSuits.append(card.get_suit())
+
+        highCard = max(cardRanks)
         
         for hand_rank, poker_hand in enumerate(cls.hands):
-            poker_hand = poker_hand[1]
-            if poker_hand(cardRanks, cardSuits):
-                return (hand_rank, poker_hand, highCard)
+            has_poker_hand = poker_hand[1]
+            poker_hand_name = poker_hand[0]
+            if has_poker_hand(cardSuits, cardRanks):
+                print(f"Rank: {hand_rank}, Hand: {poker_hand_name}, High: {highCard}")
+                return (hand_rank, poker_hand_name, highCard)
+
+        print(f"Rank: {highCard}, Hand: High Card, High: {highCard}")
+        return (highCard, "High Card", highCard)
+
 
     @classmethod
     def evaluate_hand(cls, cards, player_name="Player"):
         """
         """
+        
         print(f'\n{player_name}, your final hand is: {Fore.MAGENTA}{cards}{Style.RESET_ALL}')
 
         if cls.variant == "5-Card Draw":

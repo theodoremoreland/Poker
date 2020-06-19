@@ -22,6 +22,8 @@ class Card():
 
 
     def get_kind(self):
+        """ 2-10 are just numbers
+        """
         if self._rank == 1:
             return 'Ace'
         elif self._rank == 11: 

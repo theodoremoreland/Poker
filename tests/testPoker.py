@@ -1,8 +1,12 @@
+# Native
+import sys
 import unittest
 
-from ..classes import Player
+# Third party
 
-class TestPlayer(unittest.TestCase):
+# Custom
+
+class testPoker(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -19,6 +23,6 @@ class TestPlayer(unittest.TestCase):
 
     def tearDown(self):
         pass
-
-if __name__ == '__main__':
-    unittest.main()
+    
+    def test_a(self):
+        pass

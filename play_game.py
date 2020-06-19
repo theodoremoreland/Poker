@@ -47,6 +47,9 @@ def players_draw_cards(players, deck):
     """
     players = players.copy()
 
+    # Clears shell / console
+    system('cls')
+
     if len(players) > 0:
         time.sleep(1)
         player = players.pop()
@@ -65,17 +68,20 @@ def rate_players(players):
         player = players.pop()
         player_hand = player.get_hand()
         player_name = player.get_name()
+        time.sleep(1)
         hand_ranking = Poker.evaluate_hand(player_hand, player_name) # Returns Tuple
-        player.updateStatus(hand_ranking)
+        (handRating, description, highCard) = hand_ranking # Unpacks Tuple
+        player.updateStatus(handRating, description, highCard)
         return rate_players(players)
 
     return None
 
 
-def determine_winner(players, winningPlayer="", winningHand=11, highCard=0, description=""):
+def determine_winner(players, winningPlayer="", winningHand=14, highCard=0, description=""):
+    """
+    """
     players = players.copy()
     
-
     if len(players) > 0:
         player = players.pop()
         if (player.handRating < winningHand):
@@ -83,9 +89,9 @@ def determine_winner(players, winningPlayer="", winningHand=11, highCard=0, desc
             highCard = player.highCard
             winningPlayer = player
             description = player.description
-        determine_winner(players, winningPlayer, winningHand, highCard, winningPlayer)
+        return determine_winner(players, winningPlayer, winningHand, highCard, description)
     
-    time.sleep(1)
+    time.sleep(2)
     print(f"\nWinning Player is {Fore.GREEN}{winningPlayer}{Style.RESET_ALL} who won with a hand of {Fore.GREEN}{*winningPlayer.get_hand(),}{Style.RESET_ALL}, {winningPlayer} had {description}.\n")
 
 
@@ -93,11 +99,10 @@ def play_game(keepPlaying=True):
     """Begins a round of Poker
     """
 
-    # Clears shell / console
-    system('cls')
-
     # Base case
     if keepPlaying != True:
+        # Clears shell / console
+        system('cls')
         print("Game session ceased.")
         return None
 
@@ -107,9 +112,6 @@ def play_game(keepPlaying=True):
     Poker.define_hands()
     rate_players(players)
     determine_winner(players)
-
-    # Clears shell / console
-    system('cls')
 
     keepPlaying = input(f"{Style.BRIGHT}Do you want to play again (Y/N)? {Style.RESET_ALL}").lower().strip() in ["y", "ye", "yes", "yea", "yeah", "ys", "u", "t"]
     return play_game(keepPlaying)

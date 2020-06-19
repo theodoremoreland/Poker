@@ -1,15 +1,18 @@
+import sys
 import unittest
 
-from ..classes import Card
+sys.path.append("..")
+from classes.Card import Card
 
 class TestCard(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        cls.suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts']
+        cls.card = Card("Diamonds", 13)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(self):
         pass
 
 
@@ -20,70 +23,123 @@ class TestCard(unittest.TestCase):
     def tearDown(self):
         pass
 
+    
+    def test_should_cast_rank_to_number(self):
+        """
+        """
+        self.assertIsInstance(self.card.get_rank(), int)
 
-    def test_GetRankForAce(self):
+
+    def test_should_get_suit(self):
+        """
+        """
+        self.assertEqual(self.card.get_suit(), "Diamonds")
+
+
+    def test_should_return_kind_for_ace(self):
         """
         """
 
         card = Card('Diamonds', 1)
-        value = card.get_rank()
-        self.assertEqual('Ace', value)
+        kind = card.get_kind()
+        self.assertEqual('Ace', kind)
 
 
-    def test_GetRankForJack(self):
+    def test_should_return_kind_for_jack(self):
         """
         """
 
         card = Card('Diamonds', 11)
-        value = card.get_rank()
-        self.assertEqual('Jack', value)
+        kind = card.get_kind()
+        self.assertEqual('Jack', kind)
 
 
-    def test_GetRankForQueen(self):
+    def test_should_return_kind_for_queen(self):
         """
         """
 
         card = Card('Spades', 12) 
-        value = card.get_rank()
-        self.assertEqual('Queen', value)
+        kind = card.get_kind()
+        self.assertEqual('Queen', kind)
 
 
-    #TODO: Complete unit test
-    def test_GetRankForKing(self):
+    def test_should_return_kind_for_king(self):
         """
         """
 
         card = Card('Hearts', 13)
-        value = card.get_rank()
-        self.assertEqual('King', value)
+        kind = card.get_kind()
+        self.assertEqual('King', kind)
 
 
-    #TODO: Complete unit test
-    def test_GetRankForNumberCard(self):
+    def test_should_return_kind_for_numbers(self):
         """
         """
-
-        card = Card('Hearts', 2)
-        value = card.get_rank()
-
-        self.assertEqual('2', value)
-        self.assertEqual('3', value)
-        self.assertEqual('4', value)
-        self.assertEqual('5', value)
-        self.assertEqual('6', value)
-        self.assertEqual('7', value)
-        self.assertEqual('8', value)
-        self.assertEqual('9', value)
-        self.assertEqual('10', value)
+        for number in range(2,11):
+            card = Card('Hearts', number)
+            kind = card.get_kind()
+            self.assertEqual(str(number), kind, f"Test failed on number: {number} and kind: {kind}.")
 
 
-    def test_ExpressionForAce(self):
+    def test_should_return_all_ranks(self):
         """
         """
+        for number in range(1,14):
+            card = Card('Hearts', number)
+            rank = card.get_rank()
+            self.assertEqual(number, rank)
 
-        card = Card('Diamonds', 1)
-        value = str(card)
-        self.assertEqual('Ace of Diamonds', value)
+
+    def test_should_return_expression_for_ace(self):
+        """
+        """
+        for suit in self.suits:
+            card = Card(suit, 1)
+            kind = str(card)
+            self.assertEqual(f'Ace of {suit}', kind, f'Test failed on suit: {suit}')
+
+
+    def test_should_return_expression_for_jack(self):
+        """
+        """
+        for suit in self.suits:
+            card = Card(suit, 11)
+            kind = str(card)
+            self.assertEqual(f'Jack of {suit}', kind, f'Test failed on suit: {suit}')
+
+
+    def test_should_return_expression_for_queen(self):
+        """
+        """
+        for suit in self.suits:
+            card = Card(suit, 12)
+            kind = str(card)
+            self.assertEqual(f'Queen of {suit}', kind, f'Test failed on suit: {suit}')
+
+
+    def test_should_return_expression_for_king(self):
+        """
+        """
+        for suit in self.suits:
+            card = Card(suit, 13)
+            kind = str(card)
+            self.assertEqual(f'King of {suit}', kind, f'Test failed on suit: {suit}')
+
+
+    def test_should_override_object_representation(self):
+        """
+        """
+        self.assertIsInstance(str(self.card), str)
+
+
+    def test_should_override_object_equality(self):
+        """
+        """
+        card_1 = Card("Hearts", 13)
+        card_2 = Card("Hearts", 13)
+        card_3 = Card("Hearts", 12)
+        self.assertEqual(card_1, card_2)
+        self.assertNotEqual(card_2, card_3)
 
 
 if __name__ == '__main__':

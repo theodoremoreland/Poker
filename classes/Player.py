@@ -1,5 +1,10 @@
+# Native
+import sys
+
 # Third party
 from colorama import Fore, Back, Style
+
+sys.path.append("..")
 
 class Player():
     
@@ -32,12 +37,12 @@ class Player():
                 self.get_hand()[int(to_be_discarded)-1] = deck.pop()
 
 
-    def updateStatus(self, hand_ranking):
+    def updateStatus(self, handRating, description, highCard):
         """
         """
-        self.handRating = hand_ranking[0]
-        self.description = hand_ranking[1]
-        self.highCard = hand_ranking[2]
+        self.handRating = handRating
+        self.description = description
+        self.highCard = highCard
 
 
     def __eq__(self, player):
