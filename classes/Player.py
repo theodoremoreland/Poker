@@ -4,8 +4,6 @@ import sys
 # Third party
 from colorama import Fore, Back, Style
 
-sys.path.append("..")
-
 class Player():
     
     def __init__(self, name):
@@ -24,7 +22,7 @@ class Player():
             self.get_hand().append(card)
 
         print(f'\n{self.get_name()}, you drew: {Fore.CYAN}{self.get_hand()}{Style.RESET_ALL}')
-        self.discard_cards(deck)
+        # self.discard_cards(deck)
 
 
     def discard_cards(self, deck):
@@ -37,7 +35,7 @@ class Player():
                 self.get_hand()[int(to_be_discarded)-1] = deck.pop()
 
 
-    def updateStatus(self, handRating, description, highCard):
+    def updateState(self, handRating, description, highCard):
         """
         """
         self.handRating = handRating
@@ -48,11 +46,10 @@ class Player():
     def __eq__(self, player):
         """
         """
-
         if isinstance(player, Player):
-            return player == Player
+            return player._name == self._name
 
-        return self._name == player
+        return False
 
 
     def __repr__(self):

@@ -6,7 +6,7 @@ import unittest
 
 # Custom
 
-class testPoker(unittest.TestCase):
+class TestPoker(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

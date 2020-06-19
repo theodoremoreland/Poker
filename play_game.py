@@ -54,6 +54,7 @@ def players_draw_cards(players, deck):
         time.sleep(1)
         player = players.pop()
         player.draw_cards(deck)
+        player.discard_cards(deck)
         return players_draw_cards(players, deck)
 
     return None
@@ -71,7 +72,7 @@ def rate_players(players):
         time.sleep(1)
         hand_ranking = Poker.evaluate_hand(player_hand, player_name) # Returns Tuple
         (handRating, description, highCard) = hand_ranking # Unpacks Tuple
-        player.updateStatus(handRating, description, highCard)
+        player.updateState(handRating, description, highCard)
         return rate_players(players)
 
     return None
